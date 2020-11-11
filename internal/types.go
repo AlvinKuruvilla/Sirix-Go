@@ -17,14 +17,14 @@ type DBInfo struct {
 type DeleteDiff struct {
 	nodeKey uint
 	deweyID string
-	depth   int
+	depth   uint
 }
 
 //InfoResult A result from the global info request
 type InfoResult struct {
 	name     string
 	infoType string
-	//*Note: in the rust code this is wrapped in an "option" construct so there will likely be error handling involved
+	//*Note: in the rust code "resources" is wrapped in an "option" construct so there will likely be error handling involved
 	resources []string
 }
 
@@ -46,12 +46,12 @@ type InsertDiff struct {
 
 //TransactionMetadata Transaction Metadata
 type TransactionMetadata struct {
-	nodeKey uint
-	hash    int
-	//todo: in the rust code NodeType is an enum
+	nodeKey         uint
+	hash            int
+	nt              NodeType
 	descendantCount uint
 	childCount      uint
-	//!FIXME: descendantCount and childCount are only provided in the rust code if nodeType is a NodeType::Object or NodeType::Array
+	//*NOTE: descendantCount and childCount are only provided in the rust code if nodeType is a NodeType::Object or NodeType::Array
 }
 
 //QueryResult the result from a query

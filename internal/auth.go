@@ -9,10 +9,28 @@ import (
 
 //Auth a struct representing the data needed for authentication
 type Auth struct {
-	username string
-	password string
-	url      string
-	client   http.Client
+	username  string
+	password  string
+	url       string
+	client    http.Client
+	tokenData TokeData
+}
+
+//NewAuth creates a new Auth struct
+func NewAuth(
+	//todo: do we need to include certificate authority and scheme like in the rust code?
+	username string,
+	password string,
+	url string,
+	client http.Client) Auth {
+	emptyTokenData := TokeData{"", 0, 0, 0, 0, "", "", "", ""}
+	a := Auth{
+		username,
+		password,
+		url,
+		client,
+		emptyTokenData}
+	return a
 }
 
 func authenticate(a Auth, w http.ResponseWriter, r *http.Request, jsonByteData []byte) {

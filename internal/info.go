@@ -3,10 +3,10 @@ package internal
 //TokeData Represents a connection token
 type TokeData struct {
 	accessToken      string
-	expireAt         int
-	expiresIn        int
-	notBeforePolicy  int
-	refreshExpiresIn int
+	expireAt         uint
+	expiresIn        uint
+	notBeforePolicy  uint
+	refreshExpiresIn uint
 	refreshToken     string
 	scope            string
 	sessionState     string

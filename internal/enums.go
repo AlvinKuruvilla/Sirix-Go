@@ -101,6 +101,8 @@ var strMD = [...]string{
 	"KeyAndChild",
 }
 
+//*These functions are probably not necessary...
+
 //GetNodeType Returns the String representation of the "enum" field for NodeType
 func (nt NodeType) GetNodeType() string {
 	return strNodeType[nt]
