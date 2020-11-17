@@ -51,7 +51,7 @@ type TransactionMetadata struct {
 	nt              NodeType
 	descendantCount uint
 	childCount      uint
-	//*NOTE: descendantCount and childCount are only provided in the rust code if nodeType is a NodeType::Object or NodeType::Array
+	//*NOTE: descendantCount and childCount are only provided in the rust code if NodeType is a NodeType::Object or NodeType::Array
 }
 
 //QueryResult the result from a query

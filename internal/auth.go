@@ -7,6 +7,20 @@ import (
 	"net/http"
 )
 
+type scheme int
+
+const (
+	//HTTP usng the HTTP protocol
+	HTTP scheme = iota
+	//HTTPS using the HTTPS protocol
+	HTTPS
+)
+
+var schemeStr = [...]string{
+	"HTTPS",
+	"HTTP",
+}
+
 //Auth a struct representing the data needed for authentication
 type Auth struct {
 	username  string
@@ -14,6 +28,7 @@ type Auth struct {
 	url       string
 	client    http.Client
 	tokenData TokeData
+	s         scheme
 }
 
 //NewAuth creates a new Auth struct
@@ -22,14 +37,15 @@ func NewAuth(
 	username string,
 	password string,
 	url string,
-	client http.Client) Auth {
+	client http.Client, s scheme) Auth {
 	emptyTokenData := TokeData{"", 0, 0, 0, 0, "", "", "", ""}
 	a := Auth{
 		username,
 		password,
 		url,
 		client,
-		emptyTokenData}
+		emptyTokenData,
+		s}
 	return a
 }
 
