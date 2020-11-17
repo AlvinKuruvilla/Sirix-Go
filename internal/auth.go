@@ -25,10 +25,11 @@ var schemeStr = [...]string{
 type Auth struct {
 	username  string
 	password  string
-	url       string
+	baseURL  string
 	client    http.Client
 	tokenData TokeData
 	s         scheme
+	host      string
 }
 
 //NewAuth creates a new Auth struct
@@ -36,23 +37,26 @@ func NewAuth(
 	//todo: do we need to include certificate authority and scheme like in the rust code?
 	username string,
 	password string,
-	url string,
-	client http.Client, s scheme) Auth {
+	baseURL string,
+	client http.Client,
+	s scheme,
+	host string) Auth {
 	emptyTokenData := TokeData{"", 0, 0, 0, 0, "", "", "", ""}
 	a := Auth{
 		username,
 		password,
-		url,
+		baseURL,
 		client,
 		emptyTokenData,
-		s}
+		s,
+		host}
 	return a
 }
 
 func authenticate(a Auth, w http.ResponseWriter, r *http.Request, jsonByteData []byte) {
 	//todo: do explicit status code checking if possible
 	respBody := bytes.NewBuffer(jsonByteData)
-	resp, err := http.Post(a.url, "application/json", respBody)
+  resp, err := http.Post(a.baseURL, "application/json", respBody)
 	if resp.StatusCode != http.StatusOK {
 		log.Fatal("There was an error wheb requesting the url", err)
 	}
