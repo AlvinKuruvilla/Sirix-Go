@@ -4,3 +4,12 @@ package internal
 type HTTPClient struct {
 	a Auth
 }
+
+func new(auth Auth) *HTTPClient {
+	return &HTTPClient{
+		auth,
+	}
+}
+func (h HTTPClient) Authenticate() {
+	//h.a.Authenticate()
+}

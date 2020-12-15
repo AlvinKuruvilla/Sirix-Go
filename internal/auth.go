@@ -2,12 +2,14 @@ package internal
 
 import (
 	"bytes"
-	"io/ioutil"
-	"log"
 	"net/http"
+
+	"github.com/emirpasic/gods/maps/hashmap"
 )
 
 type scheme int
+
+var headerMap = hashmap.New()
 
 const (
 	//HTTP usng the HTTP protocol
@@ -25,7 +27,7 @@ var schemeStr = [...]string{
 type Auth struct {
 	username  string
 	password  string
-	baseURL  string
+	baseURL   string
 	client    http.Client
 	tokenData TokeData
 	s         scheme
@@ -34,7 +36,6 @@ type Auth struct {
 
 //NewAuth creates a new Auth struct
 func NewAuth(
-	//todo: do we need to include certificate authority and scheme like in the rust code?
 	username string,
 	password string,
 	baseURL string,
@@ -49,22 +50,20 @@ func NewAuth(
 		client,
 		emptyTokenData,
 		s,
-		host}
+		host,
+	}
 	return a
 }
 
-func authenticate(a Auth, w http.ResponseWriter, r *http.Request, jsonByteData []byte) {
-	//todo: do explicit status code checking if possible
-	respBody := bytes.NewBuffer(jsonByteData)
-  resp, err := http.Post(a.baseURL, "application/json", respBody)
-	if resp.StatusCode != http.StatusOK {
-		log.Fatal("There was an error wheb requesting the url", err)
+//NOTE: right now this is synchronous
+func (a Auth) Authenticate(w http.ResponseWriter, r *http.Request, jsonByteData []byte) {
+	reqBody := bytes.NewBuffer(jsonByteData)
+	req, err := http.NewRequest("POST", a.baseURL, reqBody)
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	sb := string(body)
-	log.Printf(sb)
+
 }

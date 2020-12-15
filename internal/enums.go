@@ -122,3 +122,14 @@ func (db DBType) GetDBType() string {
 func (md MetaData) GetMetadataType() string {
 	return strMD[md]
 }
+
+func (tm TransactionMetadata) isValidNodeType() bool {
+	switch tm.nt {
+	case Array:
+		return true
+	case Object:
+		return true
+	default:
+		return false
+	}
+}
