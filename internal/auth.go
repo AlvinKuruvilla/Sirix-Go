@@ -47,6 +47,7 @@ func NewAuth(
 	return a
 }
 
+//Authenticate an authentication method in the works
 func (a Auth) Authenticate(jsonByteData []byte) *http.Response {
 	reqBody := bytes.NewBuffer(jsonByteData)
 	req, err := http.NewRequest("POST", a.url, reqBody)
